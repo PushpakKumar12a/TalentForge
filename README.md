@@ -7,7 +7,7 @@
 
 The **Redrob Candidate Ranking Pipeline** is a highly optimized, resource-constrained machine learning pipeline designed to evaluate, score, and rank software engineering candidates against a specific Job Description (JD). 
 
-Built to handle massive datasets containing 100,000+ candidates without loading the entire dataset into memory, this system guarantees execution within a strict 5-minute wall-clock time limit. It relies on standard I/O streaming techniques alongside advanced hybrid retrieval, cross-encoder reranking, and quantized LLM generation running purely on local CPU infrastructure. 
+Built to handle massive datasets containing 100,000 candidates without loading the entire dataset into memory, this system guarantees execution within a strict 5-minute wall-clock time limit. It relies on standard I/O streaming techniques alongside advanced hybrid retrieval, cross-encoder reranking, and quantized LLM generation running purely on local CPU infrastructure. 
 
 ---
 
@@ -96,7 +96,7 @@ documentation
 
 The core candidate evaluation in `rank.py` runs through five highly-optimized stages:
 
-1. **Streaming & Filtering (I/O Bound):** Reads `candidates.jsonl` line-by-line. Instead of holding full candidate objects in memory, it extracts a tiny subset of metadata, drops invalid candidates using honeypot filters, and records strict integer byte-offsets for valid candidates.
+1. **Streaming & Filtering (I/O Bound):** Reads `candidates.jsonl` line-by-line. Instead of holding full candidate objects in memory, it extracts a tiny subset of metadata, drops invalid candidates using **9 heuristic honeypot flags**, and records strict integer byte-offsets for valid candidates.
 
 2. **Hybrid Retrieval (Compute Bound):** Instantiates a fast C-based BM25 index for sparse matching and loads pre-computed dense embeddings (`.npy`) into a Numpy matrix. It computes Cosine Similarity against the vectorized Job Description. Scores are normalized, fused (70% Dense / 30% BM25), and a top-K candidate shortlist is produced.
 
@@ -104,7 +104,7 @@ The core candidate evaluation in `rank.py` runs through five highly-optimized st
 
 4. **FlashRank Reranking (Compute Bound):** Batches the shortlisted candidates through the `ms-marco-MiniLM-L-12-v2` cross-encoder. It computes deep bidirectional attention scores to precisely measure the relevance of each candidate against the query context.
 
-5. **Final Scoring & Generation (Compute Bound):** Applies deterministic behavioral heuristics (e.g., multiplier penalties for notice period or location). Finally, it dynamically generates HR-formatted, objective justifications using a 4-bit `llama-3.2-1b` model, streaming the output row-by-row into the final CSV.
+5. **Final Scoring & Generation (Compute Bound):** Maps the cross-encoder results across **27 distinct behavioral feedback multipliers** using NumPy (e.g., multiplier penalties for notice period or location). Finally, it dynamically generates HR-formatted, objective justifications using a 4-bit `llama-3.2-1b` model, streaming the output row-by-row into the final CSV.
 
 ---
 
