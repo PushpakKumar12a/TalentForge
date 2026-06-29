@@ -7,3 +7,5 @@ numpy
 scipy
 streamlit
 torch
+sentence-transformers
+llama-cpp-python
