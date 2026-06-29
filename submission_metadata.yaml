@@ -1,0 +1,73 @@
+# Redrob Hackathon -- Submission Metadata
+
+# ============================================================================
+# Team identity
+# ============================================================================
+team_name: "NanoPixel"
+
+primary_contact:
+  name: "Your Name"
+  email: "pushpakalpha12@gmail.com"
+  phone: "+91-9911677089"
+
+team_members:
+  - name: "Pushpak Kumar"
+    email: "pushpakalpha12@gmail.com"
+    role: "Solo Participant"
+
+# ============================================================================
+# Code and reproducibility
+# ============================================================================
+github_repo: "https://github.com/PushpakKumar12a/Candidate-Ranking"
+sandbox_link: 
+
+reproduce_command: "python rank.py --candidates ./data/candidates.jsonl --out ./NanoPixel.csv"
+
+# ============================================================================
+# Compute environment
+# ============================================================================
+compute:
+  platform: "Lenovo IdeaPad Gaming 3 (Ryzen 5 6600H)"
+  cpu_cores: 6
+  ram_gb: 16
+  python_version: "3.13.1"
+  os: "Ubuntu 26.04 LTS (Resolute)"
+  uses_gpu_for_inference: false
+  has_network_during_ranking: false
+  pre_computation_required: true
+  pre_computation_time_minutes: 20
+# ============================================================================
+# AI tools declaration
+# ============================================================================
+ai_tools_used:
+  - "Gemini 3.1 Pro"
+
+ai_usage_summary: |
+  Used Gemini 3.1 Pro for bug fixes, UI development (Streamlit dashboard),
+  regex crafting, tuning of the local LLM reasoning logic, architecture 
+  discussion, and debugging.
+
+# ============================================================================
+# Approach summary
+# ============================================================================
+methodology_summary: |
+  A 5-stage highly optimized ranking pipeline designed for strict memory and 
+  compute constraints (16GB RAM limit, CPU-only). Stage 1 (Streaming & Filtering): 
+  Sequential streaming to apply honeypot filters and record integer byte-offsets. 
+  Stage 2 (Hybrid Retrieval): Fuses pre-computed dense embeddings (bge-small-en-v1.5, 
+  via .npy files) with a C-based BM25 sparse index (70% Dense / 30% BM25). 
+  Stage 3 (Lazy Rehydration): Instant disk seeks via byte-offsets to fetch full JSON 
+  metadata for only the top-K shortlisted candidates. Stage 4 (FlashRank Reranking): 
+  Cross-encoder attention scoring using ms-marco-MiniLM-L-12-v2. Stage 5 (Final 
+  Scoring & Generation): Applies deterministic behavioral heuristics, followed by 
+  HR-formatted generative justifications using a 4-bit quantized LLM (llama-3.2-1b).
+
+# ============================================================================
+# Declarations
+# ============================================================================
+declarations:
+  read_submission_spec: true
+  code_is_original_work: true
+  no_collusion: true
+  honeypot_check_done: true
+  reproduction_tested: true

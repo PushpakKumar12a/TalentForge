@@ -1,0 +1,9 @@
+bm25s
+PyStemmer
+flashrank
+onnxruntime
+pandas
+numpy
+scipy
+streamlit
+torch
