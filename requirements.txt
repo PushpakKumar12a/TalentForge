@@ -6,6 +6,10 @@ pandas
 numpy
 scipy
 streamlit
+# NOTE: The CPU version of PyTorch is used here to meet hackathon storage limits.
+# If you want to use a GPU (e.g. for computing precomputed_features.npy faster),
+# remove or comment out the cpu extra-index-url line below:
+--extra-index-url https://download.pytorch.org/whl/cpu
 torch
 sentence-transformers
 llama-cpp-python
