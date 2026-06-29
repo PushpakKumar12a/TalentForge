@@ -53,7 +53,8 @@ The pipeline operates in two distinct phases: pre-computation step to handle exp
 │   ├── candidate_schema.json
 │   ├── job_description.md
 │   └── redrob_signals_doc.md
-├── NanoPixel.csv               # Final generated output
+├── generated/                  # Generated files directory
+│   └── NanoPixel.csv           # Final generated output
 ├── pipeline/                   # ranking 
 pipeline modules
 │   ├── __init__.py
@@ -163,7 +164,7 @@ sequenceDiagram
     end
     
     LLM->>CSV: Inject structured data & write
-    CSV-->>User: Return finalized Nanopixel.csv
+    CSV-->>User: Return finalized generated/NanoPixel.csv
 ```
 ---
 
@@ -196,7 +197,7 @@ python precompute_features.py
 Execute the highly optimized core pipeline to stream candidates, rank them, and generate justifications within the 5-minute constraint.
 
 ```bash
-python rank.py --candidates ./data/candidates.jsonl --out ./Nanopixel.csv
+python rank.py --candidates ./data/candidates.jsonl --out ./generated/NanoPixel.csv
 ```
 
 ### 4. Interactive Dashboard

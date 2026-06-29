@@ -1,4 +1,3 @@
-from PIL import GifImagePlugin
 import streamlit as st
 import time
 import pandas as pd
@@ -49,7 +48,7 @@ with col_title:
     st.title("🎯 Candidate Ranking Pipeline")
 with col_github:
     st.markdown("<div style='padding-top: 20px;'></div>", unsafe_allow_html=True)
-    st.link_button("🐙 View on GitHub", url="https://github.com/your-repo", use_container_width=True)
+    st.link_button("🐙 View on GitHub", url="https://github.com/PushpakKumar12a/Candidate-Ranking", width='stretch')
 
 col_left, col_right = st.columns([1.1, 2])
 
@@ -146,7 +145,7 @@ with preview_container:
     df_placeholder = st.empty()
     if not st.session_state.finished:
         empty_df = pd.DataFrame(columns=["candidate_id", "rank", "score", "reasoning"])
-        df_placeholder.dataframe(empty_df, use_container_width=True, hide_index=True, column_config=col_config)
+        df_placeholder.dataframe(empty_df, width='stretch', hide_index=True, column_config=col_config)
 
 if st.session_state.stopped:
     status_placeholder.warning("Pipeline was stopped.")
@@ -160,9 +159,10 @@ if st.session_state.is_running:
         with open(cands_path, "wb") as f:
             f.write(uploaded_file.getvalue())
     else:
-        cands_path = "data/candidates.jsonl"
+        cands_path = "data/sample_candidates.jsonl"
         
-    out_csv = "NanoPixel.csv"
+    os.makedirs("generated", exist_ok=True)
+    out_csv = "generated/submission_nanopixel.csv"
     
     process = subprocess.Popen(
         ["python", "rank.py", "--candidates", cands_path, "--out", out_csv],
@@ -217,7 +217,7 @@ if st.session_state.finished:
     status_placeholder.success("Pipeline completed successfully!")
     progress_placeholder.progress(100)
     
-    out_csv = "Nanopixel.csv"
+    out_csv = "generated/submission_nanopixel.csv"
     if os.path.exists(out_csv):
         df = pd.read_csv(out_csv)
         

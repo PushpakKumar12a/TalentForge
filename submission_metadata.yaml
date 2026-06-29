@@ -21,7 +21,7 @@ team_members:
 github_repo: "https://github.com/PushpakKumar12a/Candidate-Ranking"
 sandbox_link: 
 
-reproduce_command: "python rank.py --candidates ./data/candidates.jsonl --out ./NanoPixel.csv"
+reproduce_command: "python rank.py --candidates ./data/candidates.jsonl --out ./generated/NanoPixel.csv"
 
 # ============================================================================
 # Compute environment
