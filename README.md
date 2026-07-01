@@ -3,6 +3,8 @@
 
 ![Python](https://img.shields.io/badge/Python-3.13-3776AB?logo=python&logoColor=white) ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?logo=streamlit&logoColor=white) ![NumPy](https://img.shields.io/badge/NumPy-013243?logo=numpy&logoColor=white) ![Meta Llama 3.2](https://img.shields.io/badge/Llama%203.2-043C72?logo=meta&logoColor=white)
 
+---
+
 ## 🚨 Problem Statement
 
 The goal of this project was to develop a robust, workable Proof of Concept that doesn't just filter, but intelligently ranks candidates.
@@ -20,6 +22,30 @@ This system is designed to act as the ultimate AI recruiter, capable of:
 - **Time:** The entire ranking and reasoning pipeline must complete within a strict **5-minute wall-clock limit**.
 - **Network:** Zero reliance on external network APIs (e.g., OpenAI, Claude); all models must be downloaded and executed entirely offline.
 - **Output:** Must output a structured CSV containing the ranked top candidates with dynamically generated, objective HR justifications.
+
+---
+
+## 🛑 Issues with Current ATS Systems
+
+Traditional Applicant Tracking Systems (ATS) often rely on rigid, outdated logic that can filter out highly qualified candidates. Common issues include:
+
+*   **Strict Keyword Matching:** Most ATS platforms use basic keyword matching. If a candidate uses the term "Frontend Development" instead of "React.js" (or vice versa), they may be automatically rejected, despite having the required skills.
+*   **Context-Blind Parsing:** Current systems fail to understand the context or depth of experience. They cannot differentiate between a candidate who spent 5 years architecting a system and one who simply maintained it.
+*   **Format Sensitivity:** Complex resume layouts, columns, or non-standard fonts can break traditional parsers, leading to garbled data and unfair rejection.
+*   **Lack of Transparent Reasoning:** When an ATS ranks candidates, it rarely provides recruiters with human-readable reasoning explaining *why* one candidate scored higher than another based on the job description.
+
+---
+
+## 🚀 How This Project Overcomes Them
+
+This Candidate Ranking Pipeline shifts the paradigm from simple keyword matching to **contextual reasoning and evaluation**, leveraging modern AI to evaluate resumes more like a human recruiter would.
+
+*   **Semantic Understanding Over Keywords:** Instead of relying on exact word matches, the pipeline analyzes the semantic meaning behind a candidate's experience, recognizing related skills and contextual expertise.
+*   **Automated Candidate Reasoning:** The system doesn't just output a score; it generates a clear, actionable summary of the candidate's strengths and weaknesses relative to the specific role, providing recruiters with transparent reasoning.
+*   **Resilient Data Processing:** Built with robust Python scripts and CSV cleaning logic, the pipeline handles varied data formats more effectively, ensuring candidates aren't penalized for how their data is structured.
+*   **Interactive Evaluation:** Through the Streamlit interface, reviewers can dynamically assess candidate rankings and reasoning, making the hiring process faster, fairer, and more intuitive.
+
+---
 
 ## 📖 About The Project
 
