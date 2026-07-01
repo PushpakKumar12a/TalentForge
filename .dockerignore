@@ -1,0 +1,22 @@
+venv/
+.git/
+.gitattributes
+*.pyc
+__pycache__/
+
+Dockerfile
+.dockerignore
+
+generate_sample.py
+precompute_features.py
+
+generated/
+README.md
+submission_metadata.yaml
+banner.png
+must_read/
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp

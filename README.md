@@ -3,6 +3,17 @@
 
 ![Python](https://img.shields.io/badge/Python-3.13-3776AB?logo=python&logoColor=white) ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?logo=streamlit&logoColor=white) ![NumPy](https://img.shields.io/badge/NumPy-013243?logo=numpy&logoColor=white) ![Meta Llama 3.2](https://img.shields.io/badge/Llama%203.2-043C72?logo=meta&logoColor=white)
 
+## 🚨 Problem Statement
+
+The challenge is to build a highly efficient, fully local AI pipeline capable of parsing, evaluating, and ranking **100,000+ candidate profiles** against a specific Job Description (JD). 
+
+**Strict Hackathon Constraints:**
+- **Hardware:** Must run purely on local CPU infrastructure (no GPUs).
+- **Memory:** Must not exceed a hard **16 GiB RAM** limit (meaning the full dataset cannot be loaded into memory at once).
+- **Time:** The entire ranking and reasoning pipeline must complete within a strict **5-minute wall-clock limit**.
+- **Network:** Zero reliance on external network APIs (e.g., OpenAI, Claude); all models must be downloaded and executed entirely offline.
+- **Output:** Must output a structured CSV containing the ranked top candidates with dynamically generated, objective HR justifications.
+
 ## 📖 About The Project
 
 The **Redrob Candidate Ranking Pipeline** is a highly optimized, resource-constrained machine learning pipeline designed to evaluate, score, and rank software engineering candidates against a specific Job Description (JD). 
@@ -208,4 +219,28 @@ Launch the Streamlit dashboard to monitor the pipeline's execution and analyze r
 streamlit run app.py
 ```
 
----
+### 5. Sandbox Environment Setup (Docker)
+
+> **Important:** This sandbox environment is specifically intended for processing `sample_candidates`, benchmarking execution timing, and verifying the pipeline's functionality (ensuring it runs correctly without errors).
+
+To run the pipeline and Streamlit dashboard in a secure, isolated sandbox environment that strictly adheres to the 16 GiB RAM limit and prevents external network exposure:
+
+1. **Pull the Docker Image:**
+
+   ```bash
+   docker pull pushpakkumar/talentforge
+   ```
+
+2. **Run the Sandbox Container:**
+
+   ```bash
+   docker run -d \
+     -p 127.0.0.1:8501:8501 \
+     --memory="16g" \
+     --name talentforge \
+     pushpakkumar/talentforge
+   ```
+   *Note: `-p 127.0.0.1:8501:8501` binds the app exclusively to your local machine to prevent external network access, and `--memory="16g"` enforces a hard memory limit.*
+
+3. **Access the Dashboard:**
+   Open your browser and navigate to [http://localhost:8501](http://localhost:8501).

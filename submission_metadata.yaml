@@ -19,7 +19,7 @@ team_members:
 # Code and reproducibility
 # ============================================================================
 github_repo: "https://github.com/PushpakKumar12a/Candidate-Ranking"
-sandbox_link: 
+sandbox_link: "docker pull pushpakkumar/talentforge && docker run -d -p 127.0.0.1:8501:8501 --memory=16g pushpakkumar/talentforge"
 
 reproduce_command: "python rank.py --candidates ./data/candidates.jsonl --out ./generated/NanoPixel.csv"
 
