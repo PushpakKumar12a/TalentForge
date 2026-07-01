@@ -5,7 +5,14 @@
 
 ## 🚨 Problem Statement
 
-The challenge is to build a highly efficient, fully local AI pipeline capable of parsing, evaluating, and ranking **100,000+ candidate profiles** against a specific Job Description (JD). 
+The goal of this project was to develop a robust, workable Proof of Concept that doesn't just filter, but intelligently ranks candidates.
+
+This system is designed to act as the ultimate AI recruiter, capable of:
+- **Deep Job Understanding:** Interpreting complex, nuanced job descriptions.
+- **Contextual Relevance:** Seeing beyond keywords to understand semantic fit.
+- **Signal Integration:** Leveraging all data: profile attributes, career metadata, and crucial activity/behavioral signals.
+
+**The Output:** Delivering a lightning-fast, highly accurate, and expertly ranked shortlist of the best-fit candidates.
 
 **Strict Hackathon Constraints:**
 - **Hardware:** Must run purely on local CPU infrastructure (no GPUs).
