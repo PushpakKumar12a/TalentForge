@@ -1,5 +1,5 @@
 # 🎯 Redrob Candidate Ranking Pipeline - NanoPixel Team
-![Banner](banner.png)
+<img src="https://files.catbox.moe/u7km5s.png" alt="Banner" width="100%" />
 
 ![Python](https://img.shields.io/badge/Python-3.13-3776AB?logo=python&logoColor=white) ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?logo=streamlit&logoColor=white) ![NumPy](https://img.shields.io/badge/NumPy-013243?logo=numpy&logoColor=white) ![Meta Llama 3.2](https://img.shields.io/badge/Llama%203.2-043C72?logo=meta&logoColor=white)
 
@@ -222,7 +222,7 @@ python rank.py --candidates ./data/candidates.jsonl --out ./generated/NanoPixel.
 
 Launch the Streamlit dashboard to monitor the pipeline's execution and analyze results visually.
 
-![Streamlit Dashboard](images/streamlit_app.png)
+<img src="https://files.catbox.moe/v6n6ad.png" alt="Streamlit Dashboard" width="100%" />
 
 ```bash
 streamlit run app.py
