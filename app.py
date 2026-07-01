@@ -123,7 +123,7 @@ with col_right:
         st.markdown("""
         > **This pipeline evaluates and ranks candidate profiles using a state-of-the-art, highly optimized 5-stage architecture designed for scale and precision:**
 
-        1. **Streaming & Filtering:** Ingests large-scale `JSON/JSONL` candidate data via memory-efficient streaming. Applies fast heuristic filters to instantly discard incomplete or unqualified profiles, drastically reducing memory overhead.
+        1. **Streaming & Filtering:** Ingests large-scale `JSONL` candidate data via memory-efficient streaming. Applies fast heuristic filters to instantly discard incomplete or unqualified profiles, drastically reducing memory overhead.
         2. **Hybrid Retrieval:** Leverages a dual-encoder architecture. It combines sparse `BM25` lexical matching (for exact keyword extraction) with dense vector embeddings (e.g., `MiniLM`) to capture semantic meaning and contextual relevance, yielding a highly accurate initial shortlist.
         3. **Candidate Profiling:** Performs a secondary pass to re-read the complete, rich data profiles exclusively for the shortlisted candidates. This isolates memory usage and prepares the deep textual features required for complex downstream analysis.
         4. **Batch Reranking:** Applies advanced cross-encoder models via `FlashRank`. By executing the reranking in dynamically optimized batches, it computes highly precise query-document relevance scores without exhausting system resources.

@@ -222,6 +222,8 @@ python rank.py --candidates ./data/candidates.jsonl --out ./generated/NanoPixel.
 
 Launch the Streamlit dashboard to monitor the pipeline's execution and analyze results visually.
 
+![Streamlit Dashboard](images/streamlit_app.png)
+
 ```bash
 streamlit run app.py
 ```
