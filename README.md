@@ -296,17 +296,25 @@ streamlit run app.py
 
 Run the complete pipeline inside a memory-capped, isolated container enforcing a strict 16 GiB RAM limit:
 
+#### 1. Pull container image
 ```bash
-# 1. Pull container image
 docker pull pushpakkumar/talentforge
-
-# 2. Run container with strict memory boundaries
-docker run -d \
-  -p 127.0.0.1:8501:8501 \
-  --memory="16g" \
-  --name talentforge \
-  pushpakkumar/talentforge
 ```
+
+#### 2. Run container with strict memory boundaries
+```bash
+docker run -d -p 127.0.0.1:8501:8501 --memory="16g" --name talentforge pushpakkumar/talentforge
+```
+
+### Command Summary
+
+| Option | Purpose |
+|--------|---------|
+| `-d` | Runs the container in detached (background) mode. |
+| `-p 127.0.0.1:8501:8501` | Maps port **8501** from the container to the local machine. |
+| `--memory="16g"` | Restricts the container to **16 GB** of RAM. |
+| `--name talentforge` | Assigns the container the name **talentforge**. |
+| `pushpakkumar/talentforge` | Specifies the Docker image to pull (if needed) and run. |
 
 > [!NOTE]
 > Access the Streamlit dashboard locally by opening [`http://localhost:8501`](http://localhost:8501) in your browser.
