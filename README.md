@@ -269,11 +269,7 @@ To run the pipeline and Streamlit dashboard in a secure, isolated sandbox enviro
 2. **Run the Sandbox Container:**
 
    ```bash
-   docker run -d \
-     -p 127.0.0.1:8501:8501 \
-     --memory="16g" \
-     --name talentforge \
-     pushpakkumar/talentforge
+   docker run -d -p 127.0.0.1:8501:8501 --memory="16g" --name talentforge pushpakkumar/talentforge
    ```
    *Note: `-p 127.0.0.1:8501:8501` binds the app exclusively to your local machine to prevent external network access, and `--memory="16g"` enforces a hard memory limit.*
 
