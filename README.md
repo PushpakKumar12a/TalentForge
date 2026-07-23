@@ -1,277 +1,312 @@
-# 🎯 Redrob Candidate Ranking Pipeline - NanoPixel Team
-<img src="https://files.catbox.moe/u7km5s.png" alt="Banner" width="100%" />
+# 🎯 Redrob Candidate Ranking Pipeline — NanoPixel
 
-![Python](https://img.shields.io/badge/Python-3.13-3776AB?logo=python&logoColor=white) ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?logo=streamlit&logoColor=white) ![NumPy](https://img.shields.io/badge/NumPy-013243?logo=numpy&logoColor=white) ![Meta Llama 3.2](https://img.shields.io/badge/Llama%203.2-043C72?logo=meta&logoColor=white)
+<p align="center">
+  <img src="https://files.catbox.moe/u7km5s.png" alt="Redrob Banner" width="100%" style="border-radius: 10px; margin-bottom: 16px;" />
+</p>
+
+<p align="center">
+  <a href="#-key-capabilities">Key Features</a> •
+  <a href="#-system-architecture">Architecture</a> •
+  <a href="#-tech-stack">Tech Stack</a> •
+  <a href="#-setup--execution-guide">Quick Start</a> •
+  <a href="#-docker-execution">Docker</a>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.13-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python 3.13" />
+  <img src="https://img.shields.io/badge/Streamlit-1.40+-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white" alt="Streamlit" />
+  <img src="https://img.shields.io/badge/NumPy-1.26+-013243?style=for-the-badge&logo=numpy&logoColor=white" alt="NumPy" />
+  <img src="https://img.shields.io/badge/Meta_Llama_3.2-1B_4bit-043C72?style=for-the-badge&logo=meta&logoColor=white" alt="Meta Llama 3.2" />
+  <img src="https://img.shields.io/badge/Docker-Enabled-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker" />
+</p>
 
 ---
 
 ## 🚨 Problem Statement
 
-The goal of this project was to develop a robust, workable Proof of Concept that doesn't just filter, but intelligently ranks candidates.
+Traditional Applicant Tracking Systems (ATS) rely on brittle keyword heuristics that reject exceptional candidates over simple vocabulary differences. **NanoPixel** bridges this gap by providing an end-to-end, privacy-first, intelligent candidate ranking engine capable of deep contextual evaluation.
 
-This system is designed to act as the ultimate AI recruiter, capable of:
-- **Deep Job Understanding:** Interpreting complex, nuanced job descriptions.
-- **Contextual Relevance:** Seeing beyond keywords to understand semantic fit.
-- **Signal Integration:** Leveraging all data: profile attributes, career metadata, and crucial activity/behavioral signals.
+> [!IMPORTANT]
+> **Core Objective:** Deliver a high-precision, sub-5-minute candidate shortlist backed by transparent, objective HR justifications—running entirely offline on resource-constrained hardware.
 
-**The Output:** Delivering a lightning-fast, highly accurate, and expertly ranked shortlist of the best-fit candidates.
+### ⚡ Strict Hackathon Constraints
 
-**Strict Hackathon Constraints:**
-- **Hardware:** Must run purely on local CPU infrastructure (no GPUs).
-- **Memory:** Must not exceed a hard **16 GiB RAM** limit (meaning the full dataset cannot be loaded into memory at once).
-- **Time:** The entire ranking and reasoning pipeline must complete within a strict **5-minute wall-clock limit**.
-- **Network:** Zero reliance on external network APIs (e.g., OpenAI, Claude); all models must be downloaded and executed entirely offline.
-- **Output:** Must output a structured CSV containing the ranked top candidates with dynamically generated, objective HR justifications.
-
----
-
-## 🛑 Issues with Current ATS Systems
-
-Traditional Applicant Tracking Systems (ATS) often rely on rigid, outdated logic that can filter out highly qualified candidates. Common issues include:
-
-*   **Strict Keyword Matching:** Most ATS platforms use basic keyword matching. If a candidate uses the term "Frontend Development" instead of "React.js" (or vice versa), they may be automatically rejected, despite having the required skills.
-*   **Context-Blind Parsing:** Current systems fail to understand the context or depth of experience. They cannot differentiate between a candidate who spent 5 years architecting a system and one who simply maintained it.
-*   **Format Sensitivity:** Complex resume layouts, columns, or non-standard fonts can break traditional parsers, leading to garbled data and unfair rejection.
-*   **Lack of Transparent Reasoning:** When an ATS ranks candidates, it rarely provides recruiters with human-readable reasoning explaining *why* one candidate scored higher than another based on the job description.
+| Constraint | Limit / Specification | Engineering Solution |
+| :--- | :--- | :--- |
+| 💻 **Hardware** | Pure Local CPU (Zero GPU) | Quantized GGUF models & vectorized NumPy inference |
+| 🧠 **Memory** | $\le$ 16 GiB RAM hard cap | Continuous streaming with integer byte-offset indexing |
+| ⏱️ **Latency** | $< 5.0$ minutes wall-clock time | Hybrid retrieval pre-filtering + FlashRank cross-encoding |
+| 🔒 **Network** | 100% Offline (Zero external APIs) | Fully self-contained local model weights (`llama.cpp`) |
+| 📄 **Output** | Structured CSV output | Streamed CSV writer with dynamically formatted HR feedback |
 
 ---
 
-## 🚀 How This Project Overcomes Them
+## 🛑 Traditional ATS Bottlenecks vs. 🚀 NanoPixel Engine
 
-This Candidate Ranking Pipeline shifts the paradigm from simple keyword matching to **contextual reasoning and evaluation**, leveraging modern AI to evaluate resumes more like a human recruiter would.
+```
+       ❌ Traditional ATS                          ✅ NanoPixel Engine
+┌───────────────────────────────┐          ┌───────────────────────────────┐
+│  • Rigid Keyword Matching     │   Vs.    │  • Semantic Vector Alignment  │
+│  • Depth & Context Blindness  │  ───►    │  • Cross-Encoder Attention    │
+│  • Layout & Parser Fragility  │          │  • Memory-Safe JSON Streaming │
+│  • Black-Box Scoring Output   │          │  • Natural Language HR Logic  │
+└───────────────────────────────┘          └───────────────────────────────┘
+```
 
-*   **Semantic Understanding Over Keywords:** Instead of relying on exact word matches, the pipeline analyzes the semantic meaning behind a candidate's experience, recognizing related skills and contextual expertise.
-*   **Automated Candidate Reasoning:** The system doesn't just output a score; it generates a clear, actionable summary of the candidate's strengths and weaknesses relative to the specific role, providing recruiters with transparent reasoning.
-*   **Resilient Data Processing:** Built with robust Python scripts and CSV cleaning logic, the pipeline handles varied data formats more effectively, ensuring candidates aren't penalized for how their data is structured.
-*   **Interactive Evaluation:** Through the Streamlit interface, reviewers can dynamically assess candidate rankings and reasoning, making the hiring process faster, fairer, and more intuitive.
+<br/>
 
----
-
-## 📖 About The Project
-
-The **Redrob Candidate Ranking Pipeline** is a highly optimized, resource-constrained machine learning pipeline designed to evaluate, score, and rank software engineering candidates against a specific Job Description (JD). 
-
-Built to handle massive datasets containing 100,000 candidates without loading the entire dataset into memory, this system guarantees execution within a strict 5-minute wall-clock time limit. It relies on standard I/O streaming techniques alongside advanced hybrid retrieval, cross-encoder reranking, and quantized LLM generation running purely on local CPU infrastructure. 
+| Evaluation Pillar | ❌ Traditional ATS Systems | 🚀 NanoPixel Pipeline Solution |
+| :--- | :--- | :--- |
+| 🧩 **Skill Recognition** | **Brittle Keyword Exactness**<br/>Penalizes candidates over minor phrasing differences (e.g., rejecting *"Frontend"* when looking for *"React"*). | **Semantic Density Alignment**<br/>Uses `bge-small-en-v1.5` embeddings to capture core conceptual expertise regardless of exact wording. |
+| 🎯 **Experience Context** | **Impact & Depth Blindness**<br/>Equates high-level architectural design with simple system maintenance. | **Attention-Based Reranking**<br/>Employs `ms-marco-MiniLM-L-12-v2` cross-encoder to evaluate true project depth and contextual fit. |
+| ⚡ **System Footprint** | **Memory Bottlenecks**<br/>Crashes or throttles when parsing massive candidate datasets into RAM. | **Byte-Offset Direct Seeking**<br/>Streams `jsonl` data directly from disk using integer byte-offsets without hydrating full datasets into memory. |
+| 🔍 **Decision Clarity** | **Arbitrary Black-Box Match Scores**<br/>Outputs unexplained match percentages without actionable feedback. | **Automated HR Justifications**<br/>Generates objective natural language justifications for candidates using a 4-bit `llama-3.2-1b-instruct` local LLM. |
 
 ---
 
 ## 🏛 System Architecture
 
-The pipeline operates in two distinct phases: pre-computation step to handle expensive feature extraction, and ranking step for blazing-fast inference under constraints.
+The pipeline uses a **two-phase decoupled architecture** designed to isolate heavy embedding generation from real-time execution.
 
-### Core Architectural Components
-
-- **Offline Feature Engine:** Handles the computationally intensive dense embedding generation for the entire candidate pool. By shifting this workload to an offline phase, it parses raw job descriptions (JDs) and candidate ontologies, vectorizes them using `bge-small-en-v1.5`, and serializes the resulting embeddings directly to disk as **NumPy Binary Files (`.npy`)**. This architectural decoupling drastically reduces latency during real-time inference and prevents memory exhaustion.
-
-- **Stream Ingestion Layer:** A custom, memory-safe I/O layer that sequentially streams `candidates.jsonl` directly from the disk. Instead of hydrating full JSON objects into memory (which would crash a 16 GiB system), it immediately applies heuristic honeypot filters line-by-line. For valid candidates, it stores only their strict **integer byte-offsets**, keeping the active RAM footprint near zero while allowing instant disk-seeks later.
-
-- **Hybrid Retrieval Engine:** A two-pronged search architecture that maximizes candidate recall before the expensive reranking stage. It combines a fast C-based `BM25` stemmer for sparse text matching (lexical exactness) with dense vector cosine similarity (semantic meaning). Crucially, this stage leverages the offline-generated `.npy` arrays, safely loading the highly-compressed dense embeddings into memory using `numpy.load` to perform blazing-fast matrix multiplications. Both score distributions are then normalized and fused dynamically to create a robust initial candidate shortlist.
-
-- **Reranker Pipeline:** A "lazy-rehydrating" Cross-Encoder component (`ms-marco-MiniLM-L-12-v2`). Rather than holding all candidates in memory, it uses the stored byte-offsets to jump directly to specific disk locations and load only the top shortlisted candidates. It then performs deep query-document attention scoring, feeding the neural results into a deterministic behavioral scorer that applies real-world hiring heuristics (like location penalties and GitHub activity boosts).
-
-- **Generative Justification Module:** A hardware-aware, 4-bit quantized local LLM (`llama-3.2-1b`) orchestrated via `llama_cpp`. It operates as a specialized HR reasoning engine, injecting structured candidate data and generating heavily constrained, deterministic output sentences.
+```
+                  ┌──────────────────────────────────────────┐
+                  │   Phase 1: Pre-Computation (Offline)    │
+                  └────────────────────┬─────────────────────┘
+                                       │
+                         [ candidates.jsonl (Raw) ]
+                                       │
+                                       ▼
+                     ┌────────────────────────────────────┐
+                     │     Offline Feature Engine         │
+                     │    Model: bge-small-en-v1.5        │
+                     └─────────────────┬──────────────────┘
+                                       │
+                        [ candidate_embeddings.npy ]
+                                       │
+  ═════════════════════════════════════╧═════════════════════════════════════
+                  ┌──────────────────────────────────────────┐
+                  │     Phase 2: Online Ranking (<5 Min)     │
+                  └────────────────────┬─────────────────────┘
+                                       │
+                         [ candidates.jsonl (Disk) ]
+                                       │
+                                       ▼
+                     ┌────────────────────────────────────┐
+                     │    Stream Ingestion & Filtering    │ ──► Byte-Offset Pointer Array
+                     └─────────────────┬──────────────────┘
+                                       │
+                                       ▼
+                     ┌────────────────────────────────────┐
+                     │       Hybrid Retrieval Engine      │ ◄── Loads .npy Embeddings
+                     │      30% BM25 + 70% Dense Cosine   │
+                     └─────────────────┬──────────────────┘
+                                       │
+                                       ▼ (Top Shortlist)
+                     ┌────────────────────────────────────┐
+                     │    Lazy-Rehydration & Reranking    │ ──► Direct Disk-Seek
+                     │     ms-marco-MiniLM-L-12-v2      │
+                     └─────────────────┬──────────────────┘
+                                       │
+                                       ▼
+                     ┌────────────────────────────────────┐
+                     │   Deterministic Behavioral Scorer  │ ──► Applies 27 Multipliers
+                     └─────────────────┬──────────────────┘
+                                       │
+                                       ▼
+                     ┌────────────────────────────────────┐
+                     │ Generative HR Reasoning Engine     │ ──► Local Llama-3.2-1b (CPU)
+                     └─────────────────┬──────────────────┘
+                                       │
+                                       ▼
+                            [ NanoPixel.csv Output ]
+```
 
 ---
 
-## ✨ Key Features
+## ✨ Key Capabilities
 
-- **Constant-Memory Streaming:** Uses byte-offset tracking and sequential I/O to evaluate massive candidate pools without ever loading the full dataset into RAM, effectively neutralizing dataset size as a bottleneck.
-- **Hybrid Retrieval (Dense + Sparse):** Fuses BM25 exact keyword matching with `bge-small-en-v1.5` semantic density for high-recall candidate shortlisting.
-- **Cross-Encoder Reranking:** Applies `ms-marco-MiniLM-L-12-v2` via FlashRank to deeply evaluate candidate relevance against the query context.
-- **Deterministic Behavioral Scoring:** Adjusts raw semantic scores based on real-world hiring heuristics (e.g., location, notice period, GitHub authority).
-- **Quantized Local LLM Justification:** Dynamically generates objective, HR-formatted candidate justifications using a 4-bit quantized `llama-3.2-1b-instruct` model directly on the CPU.
-- **Real-Time Streamlit Dashboard:** Visualizes pipeline stages, RAM constraints, and candidate CSV outputs in an intuitive UI.
+* ⚡ **Constant-Memory Streaming:** Tracks strict 64-bit file byte-offsets, processing 100,000+ candidates without RAM degradation.
+* 🎯 **70/30 Hybrid Search:** Merges dense vector semantic density ($70\%$) with C-based BM25 exact keyword matching ($30\%$).
+* 🔬 **FlashRank Cross-Encoder:** Performs deep query-document attention scoring to re-rank the top shortlisted candidates.
+* 📊 **27 Behavioral Signal Multipliers:** Fine-tunes raw scores against location, notice period, GitHub authority, and tenure stability.
+* 🤖 **Local LLM Justifications:** Generates objective HR summaries line-by-line using `llama-3.2-1b-instruct` in 4-bit GGUF format via `llama_cpp`.
+* 💻 **Streamlit Dashboard:** Displays latency stats, memory usage curves, candidate profiles, and dynamic output tables in real time.
 
 ---
 
 ## 📂 Project Structure
 
 ```text
-├── app.py                      # Streamlit application UI
-├── banner.png                  # Project banner image
-├── data/                       # Data directory
-│   ├── candidate_embeddings.npy
-│   ├── candidate_ids.json
-│   └── candidates.jsonl
-├── must_read/                  # Provided hackathon materials
-│   ├── candidate_schema.json
-│   ├── job_description.md
-│   └── redrob_signals_doc.md
-├── generated/                  # Generated files directory
-│   └── NanoPixel.csv           # Final generated output
-├── pipeline/                   # ranking 
-pipeline modules
-│   ├── __init__.py
-│   ├── config.py
-│   ├── filters.py
-│   ├── reasoning.py
-│   ├── scoring.py
-│   └── text_builder.py
-├── precompute_features.py      
-computation script
-├── rank.py                     # Main pipeline execution script
-├── README.md                   
-documentation
-├── requirements.txt            # Python dependencies
-├── submission_metadata.yaml    # Submission details
-├── validate_submission.py      # Validation script
-└── weights/                    # Local model weights directory
-    ├── bge-small-en-v1.5/
-    ├── llama-3.2-1b-instruct-q4_k_m.gguf
-    └── ms-marco-MiniLM-L-12-v2/
+ candidate-ranking/
+ ├── 📄 app.py                      # Interactive Streamlit dashboard UI
+ ├── 🖼️ banner.png                  # Project banner graphic
+ ├── ⚡ precompute_features.py      # Offline vector embedding generator
+ ├── 🚀 rank.py                     # Primary pipeline execution engine
+ ├── 🧪 validate_submission.py      # Output schema & benchmark validator
+ │
+ ├── 📁 data/                       # Input storage & precomputed arrays
+ │   ├── candidate_embeddings.npy   # Serialized dense vector matrix
+ │   ├── candidate_ids.json         # Array index-to-ID mappings
+ │   └── candidates.jsonl          # Raw streaming dataset
+ │
+ ├── 📁 pipeline/                   # Core modular execution logic
+ │   ├── __init__.py                # Package initialization
+ │   ├── config.py                  # Global hyperparameters & model configs
+ │   ├── filters.py                 # 9 Honeypot safety heuristics
+ │   ├── reasoning.py               # Local GGUF LLM orchestration
+ │   ├── scoring.py                 # Behavioral heuristic multipliers
+ │   └── text_builder.py            # Prompt construction utilities
+ │
+ ├── 📁 must_read/                  # Reference documents & JSON schemas
+ │   ├── candidate_schema.json
+ │   ├── job_description.md
+ │   └── redrob_signals_doc.md
+ │
+ ├── 📁 generated/                  # Pipeline output directory
+ │   └── NanoPixel.csv              # Final ranked candidates & reasoning
+ │
+ └── 📁 weights/                    # Local offline model weights
+     ├── bge-small-en-v1.5/         # Dense retrieval model
+     ├── llama-3.2-1b-instruct-q4_k_m.gguf # 4-bit quantized generative LLM
+     └── ms-marco-MiniLM-L-12-v2/   # Reranking cross-encoder model
 ```
 
 ---
 
-## 🧠 Design & Architecture Decisions
+## 🧠 Engineering Trade-Offs
 
-- **Why stream byte-offsets instead of using Pandas?**
-  To meet the rigid 16 GiB RAM limit, loading a 480MB+ JSONL file into memory alongside heavy ML models would invoke the OS OOM killer. By streaming the file and storing only the integer byte-offsets in memory, our memory footprint is reduced by 95%, leaving ample room for embedding matrix multiplications.
-  
-- **Why a 70/30 Hybrid Search?**
-  Dense embeddings are great at finding conceptual matches (e.g., "Software Engineer" -> "Backend Developer"), but often fail at exact keyword queries (e.g., specific framework versions). Fusing dense semantic similarity (70%) with BM25 sparse lexical matching (30%) achieves maximum candidate recall before the computationally expensive Cross-Encoder stage.
-  
-- **Why use a 4-bit quantized GGUF (`llama-3.2-1b`)?**
-  Hackathon constraints strictly prohibited external API calls (e.g., OpenAI, Claude) and required local CPU-only inference. A 4-bit quantized model fits perfectly within our 16 GiB RAM budget (requiring only ~1GB) while delivering fast, coherent natural language reasoning for candidate justifications via `llama_cpp`.
+#### 1. Why File Byte-Offsets over Pandas / Polars?
+> Loading a 500MB+ JSONL dataset alongside ML model weights in memory easily triggers Linux OOM killers. By keeping an array of integer byte-positions in RAM (~MBs), the engine performs $O(1)$ disk seeks to rehydrate candidate JSONs only when needed.
 
----
+#### 2. Why a 70/30 Dense-Sparse Hybrid Search?
+> Dense semantic models excel at understanding roles (e.g., mapping *"Backend Developer"* to *"API Architect"*), but struggle with exact framework versions or niche tool identifiers. Combining dense similarity ($70\%$) with lexical BM25 ($30\%$) ensures high candidate recall prior to heavy cross-encoding.
 
-## 🔍 Pipeline Execution Details (The 5 Stages)
-
-The core candidate evaluation in `rank.py` runs through five highly-optimized stages:
-
-1. **Streaming & Filtering (I/O Bound):** Reads `candidates.jsonl` line-by-line. Instead of holding full candidate objects in memory, it extracts a tiny subset of metadata, drops invalid candidates using **9 heuristic honeypot flags**, and records strict integer byte-offsets for valid candidates.
-
-2. **Hybrid Retrieval (Compute Bound):** Instantiates a fast C-based BM25 index for sparse matching and loads pre-computed dense embeddings (`.npy`) into a Numpy matrix. It computes Cosine Similarity against the vectorized Job Description. Scores are normalized, fused (70% Dense / 30% BM25), and a top-K candidate shortlist is produced.
-
-3. **Lazy Rehydration (I/O Bound):** Using the byte-offsets stored from Stage 1, the pipeline executes an instant disk seek to fetch the full JSON metadata for *only* the shortlisted candidates, efficiently bypassing OS memory limits.
-
-4. **FlashRank Reranking (Compute Bound):** Batches the shortlisted candidates through the `ms-marco-MiniLM-L-12-v2` cross-encoder. It computes deep bidirectional attention scores to precisely measure the relevance of each candidate against the query context.
-
-5. **Final Scoring & Generation (Compute Bound):** Maps the cross-encoder results across **27 distinct behavioral feedback multipliers** using NumPy (e.g., multiplier penalties for notice period or location). Finally, it dynamically generates HR-formatted, objective justifications using a 4-bit `llama-3.2-1b` model, streaming the output row-by-row into the final CSV.
+#### 3. Why 4-Bit GGUF (`llama-3.2-1b`) on CPU?
+> To strictly obey the offline requirement without GPU acceleration, `llama-3.2-1b-instruct` quantized to `q4_k_m` consumes only ~1.1 GiB RAM. Executed via C++ bindings (`llama_cpp`), it achieves fast token generation on modern multicore CPUs.
 
 ---
 
-## 🔄 Detailed Workflow
+## 🔄 Sequence Workflow
 
 ```mermaid
 sequenceDiagram
     autonumber
     actor User
     
-    box Phase 1: Pre-Computation
-        participant DB as Data Source
-        participant FE as Feature Engine (Embedding)
-        participant NPY as NumPy Storage (.npy)
+    box Phase 1: Pre-Computation (Offline)
+        participant Data as Candidates JSONL
+        participant Engine as Feature Engine
+        participant Matrix as NumPy Disk (.npy)
     end
     
-    box Phase 2: Ranking (< 5 Mins)
-        participant SI as Stream Ingestion
-        participant HR as Hybrid Retrieval
-        participant CE as Cross-Encoder Reranker
-        participant LLM as Generative LLM
-        participant CSV as Output CSV
+    box Phase 2: Execution Pipeline (< 5 Mins)
+        participant Stream as Stream Ingest
+        participant Search as Hybrid Engine
+        participant Reranker as FlashRank Cross-Encoder
+        participant LLM as Quantized LLM (4-bit)
+        participant Output as NanoPixel.csv
     end
 
-    User->>DB: Trigger Pipeline
+    User->>Data: Trigger Pipeline Init
     
-    loop Candidate Pre-processing Loop
-        DB->>FE: Stream Raw Candidate JSON
-        Note over FE: Model: bge-small-en-v1.5<br/>(Inference Only)
-        FE-->>NPY: Serialize Dense Embeddings
+    rect rgb(245, 247, 250)
+        note over Engine: Phase 1 — Pre-computation
+        Data->>Engine: Stream Candidate Documents
+        Engine->>Matrix: Generate & Write bge-small Vectors (.npy)
     end
     
-    Note over DB,CSV: --- Real-time Execution Begins ---
+    note over Stream,Output: --- Real-time Ranking Begins ---
     
-    loop Stream Ingestion Loop
-        DB->>SI: Read candidates.jsonl line-by-line
-        Note over SI: Apply honeypot heuristics<br/>Store valid integer byte-offsets
+    loop Line-by-Line Stream
+        Data->>Stream: Read JSONL Byte Stream
+        Stream->>Stream: Check Honeypots & Record Integer Byte-Offsets
     end
     
-    SI->>HR: Pass valid byte-offsets
-    NPY-->>HR: Load compressed dense vectors
-    Note over HR: BM25 (Sparse) + Cosine Sim (Dense)
-    HR-->>CE: Shortlist (Top N Candidate IDs)
+    Stream->>Search: Pass Byte-Offset References
+    Matrix-->>Search: Load Dense Embedding Matrix
+    Search->>Search: Compute BM25 + Cosine Scores
+    Search-->>Reranker: Send Top Candidate Shortlist
     
-    loop Lazy Rehydration & Reranking Loop
-        CE->>SI: Request JSON row via byte-offset
-        SI-->>CE: Return full candidate JSON
-        Note over CE: Model: ms-marco-MiniLM<br/>Attention scoring (Inference)
-        Note over CE: Apply Behavioral Heuristics
+    loop Lazy Rehydration
+        Reranker->>Stream: Request Seek at Byte Offset
+        Stream-->>Reranker: Return Full JSON Record
+        Reranker->>Reranker: Attention Cross-Encoding + Apply 27 Multipliers
     end
     
-    CE->>LLM: Final ranked selection
+    Reranker->>LLM: Send Ranked Profiles
     
-    loop Autoregressive Generation Loop
-        Note over LLM: Model: llama-3.2-1b (4-bit)<br/>Token-by-token generation
-        LLM-->>LLM: Internal state update
+    loop Token Generation
+        LLM->>LLM: Generate HR Justifications
     end
     
-    LLM->>CSV: Inject structured data & write
-    CSV-->>User: Return finalized generated/NanoPixel.csv
+    LLM->>Output: Stream Structured Output
+    Output-->>User: Return finalized NanoPixel.csv
 ```
+
 ---
 
-## 🚀 Pipeline Execution & Setup
+## 🚀 Setup & Execution Guide
 
 ### 1. Installation
 
-Clone the repository and install the strict dependencies:
-
 ```bash
+# Clone repository
 git clone https://github.com/PushpakKumar12a/Candidate-Ranking.git
 cd Candidate-Ranking
 
+# Create & activate virtual environment
 python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
 
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+# Install dependencies
 pip install -r requirements.txt
 ```
 
-### 2. Pre-Computation
+### 2. Pre-Computation (Offline Step)
 
-Before ranking, pre-compute the dense embeddings for the candidate pool. *(Note: This step operates outside the 5-minute time window as per hackathon specs.)*
+Generates dense embeddings for candidates prior to real-time ranking:
 
 ```bash
 python precompute_features.py
 ```
 
-### 3. Ranking Pipeline
+### 3. Execute Candidate Ranking Pipeline
 
-Execute the highly optimized core pipeline to stream candidates, rank them, and generate justifications within the 5-minute constraint.
+Run the end-to-end pipeline under strict constraints:
 
 ```bash
 python rank.py --candidates ./data/candidates.jsonl --out ./generated/NanoPixel.csv
 ```
 
-### 4. Interactive Dashboard
+### 4. Launch Streamlit Dashboard
 
-Launch the Streamlit dashboard to monitor the pipeline's execution and analyze results visually.
+Explore rankings, memory consumption, and reasoning summaries interactively:
 
-<img src="https://files.catbox.moe/v6n6ad.png" alt="Streamlit Dashboard" width="100%" />
+<p align="center">
+  <img src="https://files.catbox.moe/v6n6ad.png" alt="Streamlit Dashboard" width="100%" style="border-radius: 8px; margin-top: 8px; margin-bottom: 12px;" />
+</p>
 
 ```bash
 streamlit run app.py
 ```
 
-### 5. Sandbox Environment Setup (Docker)
+---
 
-> **Important:** This sandbox environment is specifically intended for processing `sample_candidates`, benchmarking execution timing, and verifying the pipeline's functionality (ensuring it runs correctly without errors).
+## 🐳 Docker Sandbox Execution
 
-To run the pipeline and Streamlit dashboard in a secure, isolated sandbox environment that strictly adheres to the 16 GiB RAM limit and prevents external network exposure:
+Run the complete pipeline inside a memory-capped, isolated container enforcing a strict 16 GiB RAM limit:
 
-1. **Pull the Docker Image:**
+```bash
+# 1. Pull container image
+docker pull pushpakkumar/talentforge
 
-   ```bash
-   docker pull pushpakkumar/talentforge
-   ```
+# 2. Run container with strict memory boundaries
+docker run -d \
+  -p 127.0.0.1:8501:8501 \
+  --memory="16g" \
+  --name talentforge \
+  pushpakkumar/talentforge
+```
 
-2. **Run the Sandbox Container:**
-
-   ```bash
-   docker run -d -p 127.0.0.1:8501:8501 --memory="16g" --name talentforge pushpakkumar/talentforge
-   ```
-   *Note: `-p 127.0.0.1:8501:8501` binds the app exclusively to your local machine to prevent external network access, and `--memory="16g"` enforces a hard memory limit.*
-
-3. **Access the Dashboard:**
-   Open your browser and navigate to [http://localhost:8501](http://localhost:8501).
+> [!NOTE]
+> Access the Streamlit dashboard locally by opening [`http://localhost:8501`](http://localhost:8501) in your browser.
