@@ -9,7 +9,7 @@
   <a href="#-system-architecture">Architecture</a> •
   <a href="#-tech-stack">Tech Stack</a> •
   <a href="#-setup--execution-guide">Quick Start</a> •
-  <a href="#-docker-execution">Docker</a>
+  <a href="#-docker-sandbox-execution">Docker</a>
 </p>
 
 <p align="center">
