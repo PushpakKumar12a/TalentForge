@@ -1,4 +1,4 @@
-# 🎯 Redrob Candidate Ranking Pipeline — NanoPixel
+# 🎯 Candidate Ranking Pipeline — NanoPixel
 
 <p align="center">
   <img src="https://files.catbox.moe/u7km5s.png" alt="Redrob Banner" width="100%" style="border-radius: 10px; margin-bottom: 16px;" />
